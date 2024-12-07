@@ -2,11 +2,19 @@
 
 all: help
 
-build-docker-image: ## Builds the production x86_64 Docker image
-	docker build . --file Dockerfile --tag phanan/koel-dev:latest
+bash: ## Bash into the koeldev container
+	docker exec --user www-data -it koeldev bash
+
+build: ## Builds using docker-compose.mysql.yml
+	docker-compose -f docker-compose.mysql.yml build
 
 build-all-arch-docker-images: ## Builds the production Docker image for all supported processor architectures
 	docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 . --file Dockerfile --tag phanan/koel-dev:latest
+
+init: ## Build the docker image and run init command
+	$(MAKE) start
+	$(MAKE) koel-init
+	$(MAKE) sync-music
 
 koel-init: ## Create the APP_KEY for the docker-compose.mysql.yml stack
 	docker exec -it koeldev php artisan koel:init --no-assets
@@ -22,7 +30,6 @@ see-logs: ## Tail -f laravel logs
 
 start: ## Build and start the docker-compose.mysql.yml stack
 	# Create the .env files first, otherwise docker-compose is not happy
-	touch ./.env.koel ./.env.mysql || true
 	docker-compose -f docker-compose.mysql.yml up -d --build
 	@echo "Go to http://localhost"
 
