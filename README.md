@@ -31,6 +31,13 @@ Ensure the following are installed:
 ---
 
 ## ⚙️ Setup & Installation
+### 🔑 Credentials
+
+> After a successful setup, the default admin credentials are:  
+> Email: `admin@koel.dev`  
+> Password: `KoelIsCool`
+>
+> These can be changed later for security purposes.
 
 ### 1. Clone the Repository
 
@@ -46,6 +53,8 @@ Run the custom Docker Compose file designed for MariaDB:
 ```bash
 docker-compose -f ./docker-compose.mysql.yml up -d
 ```
+
+>admin@koel.dev
 
 ---
 
