@@ -8,7 +8,7 @@ build-docker-image: ## Builds the production x86_64 Docker image
 build-all-arch-docker-images: ## Builds the production Docker image for all supported processor architectures
 	docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 . --file Dockerfile --tag phanan/koel-dev:latest
 
-koel-init: ## Create the APP_KEY for the DEV docker-compose stack
+koel-init: ## Create the APP_KEY for the docker-compose.mysql.yml stack
 	docker exec -it koeldev php artisan koel:init --no-assets
 
 sync-music: ## Sync music from the /music volume with the database
@@ -20,17 +20,19 @@ clear-cache: ## Clear caches that sometimes cause error 500
 see-logs: ## Tail -f laravel logs
 	docker exec -it koeldev tail -f storage/logs/laravel.log
 
-start: ## Build and start the DEV docker-compose stack
+start: ## Build and start the docker-compose.mysql.yml stack
 	# Create the .env files first, otherwise docker-compose is not happy
-	touch ./.env.koel ./.env.dev || true
-	docker-compose -f docker-compose.dev.yml up -d --build
+	touch ./.env.koel ./.env.mysql || true
+	docker-compose -f docker-compose.mysql.yml up -d --build
 	@echo "Go to http://localhost"
 
-dgoss-dev: ## Run goss tests on the dev docker-compose stack
-	dgoss run docker-koel_koel:latest
+stop: ## Stop the docker-compose.mysql.yml stack
+	docker-compose -f docker-compose.mysql.yml down
+	@echo "Services stopped"
 
-dgoss-edit: ## Edit the goss tests on the dev docker-compose stack
-	dgoss edit docker-koel_koel:latest
+restart: ## Restart the docker-compose.mysql.yml stack
+	$(MAKE) stop
+	$(MAKE) start
 
 help: ## Display this help screen
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
