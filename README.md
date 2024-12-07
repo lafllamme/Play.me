@@ -147,6 +147,48 @@ This repository is a fork of the original [Koel Docker repository](https://githu
 1. **MariaDB Support**: A ready-to-use `docker-compose.mysql.yml` file.
 2. **Simplified Setup**: Adjustments for easier initialization and app configuration.
 
+
+---
+
+## 🎶 Managing Your Music Library
+
+To ensure that new music added to the `/music` folder is available in Koel, you need to manually scan the library. Similarly, if you're using a version of Koel prior to v5.0.2, you'll need to populate the search indexes for efficient search functionality.
+
+---
+
+### Scanning Music Folders
+
+Run the following command to scan your music library:
+
+```bash
+docker exec --user www-data -it koeldev php artisan koel:sync
+```
+
+This command synchronizes the music files in the `/music` volume with the database. You can also use the `Makefile` for convenience:
+
+```bash
+make sync-music
+```
+
+---
+
+### Populating Search Indexes
+Search indexes for new songs are automatically updated when you run 
+`php artisan koel:sync`. You only need to manually run the 
+`koel:search:import` command once for existing songs.
+
+---
+
+### Summary of Makefile Commands
+
+| Command           | Description                                         |
+|-------------------|-----------------------------------------------------|
+| `make sync-music` | Sync the `/music` folder with the database.          |
+| `make koel-init`  | Initialize the application with an `APP_KEY`.        |
+| `make clear-cache`| Clear cached data to resolve potential errors.       |
+
+By using the `Makefile`, you can streamline recurring tasks for managing your Koel setup.
+
 ---
 
 ## 📚 Resources
@@ -155,7 +197,6 @@ This repository is a fork of the original [Koel Docker repository](https://githu
 - [MariaDB Documentation](https://mariadb.org/documentation/)
 
 ---
-
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to open an issue or submit a pull request.
