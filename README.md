@@ -124,7 +124,7 @@ docker-compose -f ./docker-compose.mysql.yml up -d
 | `docker exec -it <container_name> bash`         | Access a running container                   |
 
 
-<img src="https://i.imgur.com/ROmOr0G.png">
+<img src="https://i.imgur.com/fku5s1z.png">
 ---
 
 ## 🗂 Project Structure
