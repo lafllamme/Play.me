@@ -1,0 +1,123 @@
+file:
+  /music:
+    exists: true
+    mode: "0755"
+    owner: www-data
+    group: www-data
+    filetype: directory
+  /var/www/html:
+    exists: true
+    mode: "0777"
+    owner: www-data
+    group: www-data
+    filetype: directory
+  /var/www/html/.git:
+    exists: false
+  /var/www/html/.github:
+    exists: false
+  /var/www/html/.version:
+    exists: true
+    mode: "0644"
+    owner: www-data
+    group: www-data
+    filetype: file
+    contains:
+    - v7.2.0
+  /var/www/html/artisan:
+    exists: true
+    mode: "0755"
+    owner: www-data
+    group: www-data
+    filetype: file
+  /var/www/html/cypress:
+    exists: false
+  /var/www/html/node_modules:
+    exists: false
+  /var/www/html/public/.htaccess:
+    exists: true
+    mode: "0644"
+    owner: www-data
+    group: www-data
+    filetype: file
+  /var/www/html/public/build/assets:
+    exists: true
+    mode: "0755"
+    owner: www-data
+    group: www-data
+    filetype: directory
+  /var/www/html/public/index.php:
+    exists: true
+    mode: "0644"
+    owner: www-data
+    group: www-data
+    filetype: file
+  /var/www/html/storage/framework/cache:
+    exists: true
+    mode: "0755"
+    owner: www-data
+    group: www-data
+    filetype: directory
+  /var/www/html/storage/framework/sessions:
+    exists: true
+    mode: "0755"
+    owner: www-data
+    group: www-data
+    filetype: directory
+  /var/www/html/storage/framework/views:
+    exists: true
+    mode: "0755"
+    owner: www-data
+    group: www-data
+    filetype: directory
+  /var/www/html/storage/search-indexes:
+    exists: true
+    mode: "0755"
+    owner: www-data
+    group: www-data
+    filetype: directory
+package:
+  ffmpeg:
+    installed: true
+  libapache2-mod-xsendfile:
+    installed: true
+port:
+  tcp:80:
+    listening: true
+    ip:
+    - 0.0.0.0
+service:
+  apache2:
+    enabled: true
+    skip: false
+    running: true
+user:
+  www-data:
+    exists: true
+    uid: 33
+    gid: 33
+    groups:
+    - www-data
+    home: /var/www
+    shell: /usr/sbin/nologin
+group:
+  www-data:
+    exists: true
+    gid: 33
+command:
+  artisan_env:
+    exec: php artisan env
+    exit-status: 0
+    stdout: ['/production/']
+    stderr: []
+    timeout: 0
+process:
+  apache2:
+    running: true
+http:
+  http://localhost/sw.js:
+    status: 200
+    allow-insecure: false
+    no-follow-redirects: false
+    timeout: 5000
+    body:
+    - workbox

@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  koel:
+    image: phanan/koel
+    container_name: 'koeldev'
+    depends_on:
+      - database
+    ports:
+      - 80:80
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=database
+      - DB_USERNAME=koel
+      - DB_PASSWORD=koel
+      - DB_DATABASE=koel
+    volumes:
+      - music:/music
+      - covers:/var/www/html/public/img/covers
+      - search_index:/var/www/html/storage/search-indexes
+
+  database:
+    image: mariadb:10.11
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=koel
+      - MYSQL_USER=koel
+      - MYSQL_PASSWORD=koel
+    ports:
+        - "3306:3306"
+
+volumes:
+  db:
+    driver: local
+  music:
+    driver: local
+  covers:
+    driver: local
+  search_index:
+    driver: local
