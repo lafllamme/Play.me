@@ -1,4 +1,3 @@
-
 <h1 align="center">🎵 Play.me: Dockerized Koel with MariaDB</h1>
 
 <p align="center">
@@ -48,22 +47,59 @@ Run the custom Docker Compose file designed for MariaDB:
 docker-compose -f ./docker-compose.mysql.yml up -d
 ```
 
+---
+
 ### 3. First Run Setup
 
-You will need to:
+On the first run, follow these steps:
 
-1. **Generate the Application Key**:
-   ```bash
-   docker exec --user www-data -it koeldev php artisan key:generate
-   ```
+#### Generate the `APP_KEY`
+Run the following command to generate the app key:
+```bash
+docker exec --user www-data -it koeldev php artisan key:generate
+```
 
-2. **Configure the Database**:
-   Run the following command to complete the setup:
-   ```bash
-   docker exec --user www-data -it koeldev php artisan koel:init --no-assets
-   ```
+#### Set Up the Database
+Initialize the database connection and setup:
+```bash
+docker exec --user www-data -it koeldev php artisan koel:init --no-assets
+```
 
-   This will initialize the database and set up Koel.
+This will use the environment variables set in `docker-compose.mysql.yml` to configure the database connection.
+
+#### Verify Database Login
+You can verify the database connection using the credentials specified in the `docker-compose.mysql.yml` file:
+
+For the **Koel user**:
+```bash
+docker exec -it docker-database-1 mysql -u koel -p koel
+```
+For the **Root user**:
+```bash
+docker exec -it docker-database-1 mysql -u root
+```
+
+You will be prompted to enter the passwords (`koel` and `root` respectively, as per your environment variables).
+
+---
+
+### 4. Connecting to Your Database
+
+If you'd like to connect the Koel application to the database manually or troubleshoot the connection, ensure the following environment variables in `docker-compose.mysql.yml` are correct:
+```yaml
+environment:
+  - DB_CONNECTION=mysql
+  - DB_HOST=database
+  - DB_DATABASE=koel
+  - DB_USERNAME=koel
+  - DB_PASSWORD=koel
+```
+
+You can edit these directly in the `docker-compose.mysql.yml` file and restart the services:
+```bash
+docker-compose -f ./docker-compose.mysql.yml down
+docker-compose -f ./docker-compose.mysql.yml up -d
+```
 
 ---
 
@@ -78,23 +114,8 @@ You will need to:
 | `docker-compose -f docker-compose.mysql.yml logs` | View logs for all containers                 |
 | `docker exec -it <container_name> bash`         | Access a running container                   |
 
----
 
-## 🔧 Configuration
-
-### Default Admin Credentials
-
-Koel automatically creates an admin account with the following credentials:
-
-- **Email**: `admin@koel.dev`
-- **Password**: `KoelIsCool`
-
-You should update this password for security purposes. Run the following command to change the admin password:
-
-```bash
-docker exec -it koeldev php artisan koel:admin:change-password
-```
-
+<img src="https://i.imgur.com/ROmOr0G.png">
 ---
 
 ## 🗂 Project Structure
@@ -133,5 +154,3 @@ Contributions are welcome! Feel free to open an issue or submit a pull request.
 ---
 
 <p align="center">Made with ❤️ by <a href="https://github.com/lafllamme">lafllamme</a></p>
-
----
