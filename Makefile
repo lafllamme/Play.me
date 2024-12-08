@@ -19,6 +19,9 @@ init: ## Build the docker image and run init command
 koel-init: ## Create the APP_KEY for the docker-compose.mysql.yml stack
 	docker exec -it koeldev php artisan koel:init --no-assets
 
+koel-init-assets: ## Create the APP_KEY for the docker-compose.mysql.yml stack
+	docker exec -it koeldev php artisan koel:init
+
 sync-music: ## Sync music from the /music volume with the database
 	docker exec --user www-data -it koeldev php artisan koel:sync -v
 
@@ -39,7 +42,8 @@ stop: ## Stop the docker-compose.mysql.yml stack
 
 up: ## Start the docker-compose.mysql.yml stack
 	docker-compose -f docker-compose.mysql.yml up -d
-	make koel-init
+	make koel-init-assets
+	make sync-music
 	@echo "Go to http://localhost"
 
 down: ## Stop the docker-compose.mysql.yml stack
