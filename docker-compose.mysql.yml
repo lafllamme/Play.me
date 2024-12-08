@@ -25,6 +25,8 @@ services:
     image: mariadb:10.11
     volumes:
       - db:/var/lib/mysql
+      - ./ssl/cert.pem:/etc/ssl/certs/cert.pem
+      - ./ssl/key.pem:/etc/ssl/private/key.pem
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=koel
