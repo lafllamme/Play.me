@@ -52,6 +52,8 @@ stop: ## Stop the docker-compose.mysql.yml stack
 up: ## Start the docker-compose.mysql.yml stack
 	docker-compose -f docker-compose.mysql.yml up -d
 	make sync-music
+	make sync-podcast
+	make search-import
 	make koel-init
 	@echo "Go to http://localhost"
 
