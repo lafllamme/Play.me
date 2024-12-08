@@ -20,13 +20,13 @@ services:
       - music:/music
       - covers:/var/www/html/public/img/covers
       - search_index:/var/www/html/storage/search-indexes
+      - /home/ec2-user/ssl/cert.pem:/etc/ssl/certs/cert.pem
+      - /home/ec2-user/ssl/key.pem:/etc/ssl/private/key.pem
 
   database:
     image: mariadb:10.11
     volumes:
       - db:/var/lib/mysql
-      - /home/ec2-user/ssl/cert.pem:/etc/ssl/certs/cert.pem
-      - /home/ec2-user/ssl/key.pem:/etc/ssl/private/key.pem
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=koel
