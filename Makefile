@@ -37,6 +37,14 @@ stop: ## Stop the docker-compose.mysql.yml stack
 	docker-compose -f docker-compose.mysql.yml down
 	@echo "Services stopped"
 
+up: ## Start the docker-compose.mysql.yml stack
+	docker-compose -f docker-compose.mysql.yml up -d
+	@echo "Go to http://localhost"
+
+down: ## Stop the docker-compose.mysql.yml stack
+	docker-compose -f docker-compose.mysql.yml down
+	@echo "Services stopped"
+
 restart: ## Restart the docker-compose.mysql.yml stack
 	$(MAKE) stop
 	$(MAKE) start
