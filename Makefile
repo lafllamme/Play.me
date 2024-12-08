@@ -23,7 +23,16 @@ koel-init-assets: ## Create the APP_KEY for the docker-compose.mysql.yml stack
 	docker exec -it koeldev php artisan koel:init
 
 sync-music: ## Sync music from the /music volume with the database
-	docker exec --user www-data -it koeldev php artisan koel:sync -v
+	docker exec --user www-data -it koeldev php artisan koel:scan -v
+
+sync-podcast: ## Sync podcast from the /podcast volume with the database
+	docker exec --user www-data -it koeldev php artisan koel:podcasts:sync -v
+
+setup-storage: ## Setup the storage folder
+	docker exec --user www-data -it koeldev php artisan koel:storage
+
+search-import: ## Import search index
+	docker exec --user www-data -it koeldev php artisan koel:search:import
 
 clear-cache: ## Clear caches that sometimes cause error 500
 	docker exec -it koeldev php artisan cache:clear
@@ -42,8 +51,8 @@ stop: ## Stop the docker-compose.mysql.yml stack
 
 up: ## Start the docker-compose.mysql.yml stack
 	docker-compose -f docker-compose.mysql.yml up -d
-	make koel-init-assets
 	make sync-music
+	make koel-init
 	@echo "Go to http://localhost"
 
 down: ## Stop the docker-compose.mysql.yml stack
