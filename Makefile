@@ -39,6 +39,7 @@ stop: ## Stop the docker-compose.mysql.yml stack
 
 up: ## Start the docker-compose.mysql.yml stack
 	docker-compose -f docker-compose.mysql.yml up -d
+	make koel-init
 	@echo "Go to http://localhost"
 
 down: ## Stop the docker-compose.mysql.yml stack
