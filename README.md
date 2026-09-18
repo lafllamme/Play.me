@@ -203,4 +203,4 @@ Contributions are welcome! Feel free to open an issue or submit a pull request.
 
 ---
 
-<p align="center">Made with ❤️ by <a href="https://github.com/lafllamme">lafllamme</a></p>
+Made with love by [Laflamme](https://github.com/lafllamme).
